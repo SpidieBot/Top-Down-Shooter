@@ -6,6 +6,9 @@ export var ACCELERATION = 500
 export var FRICTION = 500
 export var ROLL_SPEED = 500
 
+#bullet
+export (PackedScene) var Bullet
+
 #the state of the player
 enum{
 	MOVE,
@@ -19,6 +22,10 @@ var state = MOVE
 var velocity = Vector2.ZERO
 #everythin start facing down
 var roll_vector = Vector2.DOWN
+
+onready var end_of_gun = $EndOfGun
+
+
 
 func _process(delta):
 	match state:
@@ -64,5 +71,14 @@ func roll_state(delta):
 func move():
 	velocity = move_and_slide(velocity)
 	
-	
-	
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_released("Attack"):
+		shoot()
+
+func shoot():
+	var bullet_instance = Bullet.instance()
+	add_child(bullet_instance)
+	bullet_instance.global_position = end_of_gun.global_position
+	var target = get_global_mouse_position()
+	var direction_to_mouse = bullet_instance.global_position.direction_to(target).normalized()
+	bullet_instance.set_direction(direction_to_mouse)
