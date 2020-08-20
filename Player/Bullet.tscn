@@ -7,10 +7,8 @@
 extents = Vector2( 1.74532, 5.04351 )
 
 [node name="Bullet" type="Area2D"]
+rotation = 1.5708
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
@@ -19,3 +17,6 @@ shape = SubResource( 1 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 198, 46, 4, 10 )
+
+[node name="KillTimer" type="Timer" parent="."]
+[connection signal="timeout" from="KillTimer" to="." method="_on_illTimer_timeout"]
