@@ -36,20 +36,24 @@ func move_state(delta):
 	
 	input_vector = input_vector.normalized()
 	
-	if input_vector != Vector2.ZERO:
+	if input_vector != Vector2.ZERO: #MOVE
+		#ROLL will always face the lastinput movement
 		roll_vector = input_vector
 		
 		velocity = velocity.move_toward(input_vector * MAX_SPEED, ACCELERATION * delta)
 		
-	else:
+	else: # IDLE
 		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
 
 	move()
 	
+	# Rotate the player sprite
+	var look_vec = get_global_mouse_position() - global_position
+	global_rotation = atan2(look_vec.y, look_vec.x)
+	
 	if Input.is_action_just_pressed("Roll"):
 		state = ROLL
-	if Input.is_action_just_pressed("Attack"):
-		state = ATTACK
+	
 		
 
 func roll_state(delta):
