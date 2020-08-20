@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Hurt.wav-f022a43261ca63c69661c6db88c90993.sample"
+
+[deps]
+
+source_file="res://Examples of sprites/Music and Sounds/Hurt.wav"
+dest_files=[ "res://.import/Hurt.wav-f022a43261ca63c69661c6db88c90993.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
