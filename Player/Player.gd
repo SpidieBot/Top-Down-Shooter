@@ -10,6 +10,9 @@ export var ACCELERATION = 500
 export var FRICTION = 500
 export var ROLL_SPEED = 500
 
+#temp testing
+var health = 100
+
 #bullet
 export (PackedScene) var Bullet
 
@@ -72,7 +75,7 @@ func roll_state():
 	velocity = roll_vector * ROLL_SPEED
 	move()
 	state = MOVE # will be change after the animtio is in
-	# method wilbe calledto back to move if te animaton is end
+	# method wil be called to back to move if te animaton is end
 	
 func move():
 	velocity = move_and_slide(velocity)
@@ -84,7 +87,12 @@ func attack_state():
 		var direction = (gun_direction.global_position - end_of_gun.global_position).normalized()
 		bullet_instance.global_position = end_of_gun.global_position
 		bullet_instance.set_direction(direction)
-		#emit_signal("player_fired_bullet", bullet_instance, end_of_gun.global_position, direction)
 		get_tree().get_root().add_child(bullet_instance)
+		
 		attack_timer.start()
 		state = MOVE
+
+func handle_hit():
+	health -= 20
+	print("player hit ", health)
+	

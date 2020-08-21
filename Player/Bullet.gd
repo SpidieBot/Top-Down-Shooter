@@ -25,3 +25,9 @@ func set_direction(direction):
 
 func _on_illTimer_timeout():
 	queue_free()
+
+
+func _on_Bullet_body_entered(body):
+	if body.has_method("handle_hit"):
+		body.handle_hit()
+		queue_free()
