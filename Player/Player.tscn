@@ -22,7 +22,11 @@ modulate = Color( 1, 1, 1, 0.2 )
 shape = SubResource( 1 )
 
 [node name="EndOfGun" type="Position2D" parent="."]
-position = Vector2( 30, 0 )
+position = Vector2( 40, 0 )
 
 [node name="GunDirection" type="Position2D" parent="."]
-position = Vector2( 33, 0 )
+position = Vector2( 51, 0 )
+
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true

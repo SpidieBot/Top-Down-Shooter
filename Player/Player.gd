@@ -4,7 +4,7 @@ extends KinematicBody2D
 
 signal player_fired_bullet(bullet, position, direction)
 
-#basic movement (will bemove into stats)
+#basic movement (will be move into stats)
 export var MAX_SPEED = 100
 export var ACCELERATION = 500
 export var FRICTION = 500
@@ -29,6 +29,7 @@ var roll_vector = Vector2.DOWN
 
 onready var end_of_gun = $EndOfGun
 onready var gun_direction = $GunDirection
+onready var attack_timer = $AttackTimer
 
 
 
@@ -37,9 +38,9 @@ func _process(delta):
 		MOVE:
 			move_state(delta)
 		ROLL:
-			roll_state(delta)
+			roll_state()
 		ATTACK:
-			pass
+			attack_state()
 
 func move_state(delta):
 	var input_vector = Vector2.ZERO
@@ -60,27 +61,30 @@ func move_state(delta):
 	move()
 	
 	# Rotate the player sprite
-	var look_vec = get_global_mouse_position() - global_position
-	global_rotation = atan2(look_vec.y, look_vec.x)
+	look_at(get_global_mouse_position())
 	
 	if Input.is_action_just_pressed("Roll"):
 		state = ROLL
-	
-		
+	if Input.is_action_just_pressed("Attack"):
+		state = ATTACK
 
-func roll_state(delta):
+func roll_state():
 	velocity = roll_vector * ROLL_SPEED
 	move()
-	state = MOVE
+	state = MOVE # will be change after the animtio is in
+	# method wilbe calledto back to move if te animaton is end
 	
 func move():
 	velocity = move_and_slide(velocity)
 	
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_released("Attack"):
-		shoot()
 
-func shoot():
-	var bullet_instance = Bullet.instance()
-	var direction = (gun_direction.global_position - end_of_gun.global_position).normalized()
-	emit_signal("player_fired_bullet", bullet_instance, end_of_gun.global_position, direction)
+func attack_state():
+	if attack_timer.is_stopped():
+		var bullet_instance = Bullet.instance()
+		var direction = (gun_direction.global_position - end_of_gun.global_position).normalized()
+		bullet_instance.global_position = end_of_gun.global_position
+		bullet_instance.set_direction(direction)
+		#emit_signal("player_fired_bullet", bullet_instance, end_of_gun.global_position, direction)
+		get_tree().get_root().add_child(bullet_instance)
+		attack_timer.start()
+		state = MOVE

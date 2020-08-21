@@ -10,7 +10,7 @@ var direction = Vector2.ZERO
 func _ready():
 	kill_timer.start()
 
-func _physics_process(delta: float) -> void:
+func _physics_process(delta):
 	if direction != Vector2.ZERO:
 		var velocity = direction * SPEED
 		
@@ -18,7 +18,7 @@ func _physics_process(delta: float) -> void:
 	
 	
 	
-func set_direction(direction: Vector2):
+func set_direction(direction):
 	self.direction = direction
 	rotation += direction.angle()
 

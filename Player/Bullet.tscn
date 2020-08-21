@@ -4,11 +4,12 @@
 [ext_resource path="res://Player/Bullet.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 1.74532, 5.04351 )
+extents = Vector2( 3.12976, 6.30814 )
 
 [node name="Bullet" type="Area2D"]
 rotation = 1.5708
 script = ExtResource( 2 )
+SPEED = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
@@ -19,4 +20,5 @@ region_enabled = true
 region_rect = Rect2( 198, 46, 4, 10 )
 
 [node name="KillTimer" type="Timer" parent="."]
+wait_time = 5.0
 [connection signal="timeout" from="KillTimer" to="." method="_on_illTimer_timeout"]
