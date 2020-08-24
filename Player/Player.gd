@@ -1,5 +1,5 @@
 extends KinematicBody2D
-
+class_name Player
 # Signal
 
 signal player_fired_bullet(bullet, position, direction)
@@ -10,11 +10,6 @@ export var ACCELERATION = 500
 export var FRICTION = 500
 export var ROLL_SPEED = 500
 
-#temp testing
-var health = 100
-
-#bullet
-export (PackedScene) var Bullet
 
 #the state of the player
 enum{
@@ -30,20 +25,19 @@ var velocity = Vector2.ZERO
 #everythin start facing down
 var roll_vector = Vector2.DOWN
 
-onready var end_of_gun = $EndOfGun
-onready var gun_direction = $GunDirection
-onready var attack_timer = $AttackTimer
+
+onready var stats = $Stats
+onready var weapon = $Weapon
 
 
-
-func _process(delta):
+func _physics_process(delta):
 	match state:
 		MOVE:
 			move_state(delta)
 		ROLL:
 			roll_state()
 		ATTACK:
-			attack_state()
+			pass
 
 func move_state(delta):
 	var input_vector = Vector2.ZERO
@@ -68,8 +62,6 @@ func move_state(delta):
 	
 	if Input.is_action_just_pressed("Roll"):
 		state = ROLL
-	if Input.is_action_just_pressed("Attack"):
-		state = ATTACK
 
 func roll_state():
 	velocity = roll_vector * ROLL_SPEED
@@ -80,19 +72,11 @@ func roll_state():
 func move():
 	velocity = move_and_slide(velocity)
 	
-
-func attack_state():
-	if attack_timer.is_stopped():
-		var bullet_instance = Bullet.instance()
-		var direction = (gun_direction.global_position - end_of_gun.global_position).normalized()
-		bullet_instance.global_position = end_of_gun.global_position
-		bullet_instance.set_direction(direction)
-		get_tree().get_root().add_child(bullet_instance)
-		
-		attack_timer.start()
-		state = MOVE
-
-func handle_hit():
-	health -= 20
-	print("player hit ", health)
 	
+func _unhandled_input(event):
+	if Input.is_action_just_pressed("Attack"):
+		weapon.shoot()
+
+
+
+

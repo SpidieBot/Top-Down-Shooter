@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
-var health = 100
+onready var stats = $Stats
 
 func handle_hit():
-	health -= 20
-	print("player hit ", health)
+	stats.health -= stats.damage
+	print("player hit ", stats.health)
