@@ -18,10 +18,16 @@ _global_script_classes=[ {
 "class": "Player",
 "language": "GDScript",
 "path": "res://Player/Player.gd"
+}, {
+"base": "Node2D",
+"class": "Weapon",
+"language": "GDScript",
+"path": "res://Weapon/Weapon.gd"
 } ]
 _global_script_class_icons={
 "Bullet": "",
-"Player": ""
+"Player": "",
+"Weapon": ""
 }
 
 [application]
