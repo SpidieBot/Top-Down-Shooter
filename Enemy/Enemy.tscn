@@ -10,10 +10,10 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32.75, 31.75 )
 
-[sub_resource type="CircleShape2D" id=3]
+[sub_resource type="CircleShape2D" id=2]
 radius = 425.839
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 31.25, 32 )
 
 [node name="Enemy" type="KinematicBody2D" groups=[
@@ -44,13 +44,19 @@ script = ExtResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ai/PlayerDetectionZone"]
 modulate = Color( 1, 1, 1, 0.317647 )
-shape = SubResource( 3 )
+shape = SubResource( 2 )
+
+[node name="PatrolTimer" type="Timer" parent="Ai"]
+wait_time = 3.0
+one_shot = true
 
 [node name="Hurtbox" parent="." instance=ExtResource( 5 )]
 collision_mask = 6
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 [connection signal="body_entered" from="Ai/PlayerDetectionZone" to="Ai" method="_on_PlayerDetectionZone_body_entered"]
+[connection signal="body_exited" from="Ai/PlayerDetectionZone" to="Ai" method="_on_PlayerDetectionZone_body_exited"]
+[connection signal="timeout" from="Ai/PatrolTimer" to="Ai" method="_on_PatrolTimer_timeout"]
 
 [editable path="Hurtbox"]
